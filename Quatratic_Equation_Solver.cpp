@@ -34,12 +34,6 @@ public:
 	}
 	void CoefficientExtratctor() {
 		// Use regex to extract the coefficients a, b, and c
-		// The pattern matches:
-		// - `([-+]?\d*\.?\d*)x\^2` to capture the a coefficient (with optional sign and digits)
-		// - `([-+]?\d*\.?\d*)x` to capture the b coefficient (with optional sign and digits)
-		// - `([-+]?\d*\.?\d*)` to capture the c coefficient (with optional sign and digits)
-
-
 		std::regex regexPattern(R"(([-+]?\d*\.?\d*)x\^2([-+]?\d*\.?\d*)x([-+]?\d*\.?\d*)=0)");
 		std::smatch matches;
 
@@ -77,27 +71,27 @@ public:
 		}
 
 		//step 1 find the discriminent
-		double discriminant = (b * b) - (4 * (a * c));
+		double D = (b * b) - (4 * (a * c));
 
 		//step 2 square the discriminent 
-		double squaredDiscriminant = std::sqrt(std::abs(discriminant));
+		double squaredD = std::sqrt(std::abs(D));
 
 		//step 3 Check the nature of the roots using the discriminant
-		if (discriminant > 0) {
+		if (D > 0) {
 			// Two real and distinct roots
-			double x1 = (-b + squaredDiscriminant) / (2 * a);
-			double x2 = (-b - squaredDiscriminant) / (2 * a);
+			double x1 = (-b + squaredD) / (2 * a);
+			double x2 = (-b - squaredD) / (2 * a);
 			std::cout << "The roots are real and different: " << x1 << " and " << x2 << std::endl;
 		}
-		else if (discriminant == 0) {
+		else if (D == 0) {
 			// One real root (both roots are the same)
 			double x = -b / (2 * a);
 			std::cout << "The roots are real and identical: " << x << std::endl;
 		}
 		else {
 			// Two complex roots
-			std::complex<double> x1((-b / (2 * a)), (squaredDiscriminant / (2 * a)));
-			std::complex<double> x2((-b / (2 * a)), -(squaredDiscriminant / (2 * a)));
+			std::complex<double> x1((-b / (2 * a)), (squaredD / (2 * a)));
+			std::complex<double> x2((-b / (2 * a)), -(squaredD / (2 * a)));
 			std::cout << "The roots are complex: " << x1 << " and " << x2 << std::endl;
 		}
 	}
