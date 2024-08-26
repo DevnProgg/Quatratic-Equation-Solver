@@ -31,3 +31,14 @@ To compile and run this program, you'll need:
 3. *Compile the program*:
 	```bash
 	g++ -std=c++11 -o Quadratic_Equation_Solver
+#### Customization
+
+You can modify the program to handle different input formats or extend its functionality to support additional features like solving higher-order polynomials.
+
+### Contributing
+
+If you'd like to contribute to this project, feel free to fork the repository and submit a pull request with your changes.
+
+### License
+
+This project is licensed under the MIT License. See the LICENSE file for more details.

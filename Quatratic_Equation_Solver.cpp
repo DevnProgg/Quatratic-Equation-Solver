@@ -1,5 +1,7 @@
 // Quatratic_Equation_Solver.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/*
+	This program prompts the user to enter a quadratic equation, extracts the coefficients from the equation using regular expressions, and then calculates and displays the roots (whether they are real or complex) using the quadratic formula.
+*/
 
 #include <iostream>
 #include <cmath>
@@ -13,7 +15,7 @@ class QuadraticEquation {
 
 private: 
 	str equation; //equation declaration
-	double a = 0, b = 0, c = 0; //declaration and initialization of the coefitients
+	double a = 0, b = 0, c = 0; //declaration and initialization of the coefficients
 
 public:
 	void promptEquation() {
@@ -30,14 +32,15 @@ public:
 			equation.end()
 		);
 	}
-	void CoefeitientExtratctor() {
+	void CoefficientExtratctor() {
 		// Use regex to extract the coefficients a, b, and c
 		// The pattern matches:
-		// - `([-+]?\d*)x\^2` to capture the a coefficient (with optional sign and digits)
-		// - `([-+]?\d*)x` to capture the b coefficient (with optional sign and digits)
-		// - `([-+]?\d+)` to capture the c coefficient (with optional sign and digits)
+		// - `([-+]?\d*\.?\d*)x\^2` to capture the a coefficient (with optional sign and digits)
+		// - `([-+]?\d*\.?\d*)x` to capture the b coefficient (with optional sign and digits)
+		// - `([-+]?\d*\.?\d*)` to capture the c coefficient (with optional sign and digits)
 
-		std::regex regexPattern(R"(([-+]?\d*)x\^2([-+]?\d*)x([-+]?\d+)=0)");
+
+		std::regex regexPattern(R"(([-+]?\d*\.?\d*)x\^2([-+]?\d*\.?\d*)x([-+]?\d*\.?\d*)=0)");
 		std::smatch matches;
 
 		// If the equation matches the pattern, extract the coefficients
@@ -57,7 +60,8 @@ public:
 
 			// Extract and convert the c coefficient
 			std::string cStr = matches[3];
-			c = std::stod(cStr);                          // Convert string to double
+			if (cStr.empty()) c = 0;                      // If no coefficient, c = 0
+			else c = std::stod(cStr);                     // Convert string to double
 		}
 		else {
 			// If the equation does not match the expected format, display an error
@@ -65,7 +69,8 @@ public:
 		}
 	}
 
-	void quadraticFormular() {
+	// Prints roots of quadratic equation ax*2 + bx + x
+	void quadraticFormula() {
 		//before solving for x, check that is not 0 otherwise it isnt a valid quadratic equation
 		if (a == 0) {
 			std::cout << "Invalid quadratic equation format." << std::endl;
@@ -75,13 +80,13 @@ public:
 		double discriminant = (b * b) - (4 * (a * c));
 
 		//step 2 square the discriminent 
-		double sqrtDiscriminant = std::sqrt(std::abs(discriminant));
+		double squaredDiscriminant = std::sqrt(std::abs(discriminant));
 
 		//step 3 Check the nature of the roots using the discriminant
 		if (discriminant > 0) {
 			// Two real and distinct roots
-			double x1 = (-b + sqrtDiscriminant) / (2 * a);
-			double x2 = (-b - sqrtDiscriminant) / (2 * a);
+			double x1 = (-b + squaredDiscriminant) / (2 * a);
+			double x2 = (-b - squaredDiscriminant) / (2 * a);
 			std::cout << "The roots are real and different: " << x1 << " and " << x2 << std::endl;
 		}
 		else if (discriminant == 0) {
@@ -91,8 +96,8 @@ public:
 		}
 		else {
 			// Two complex roots
-			std::complex<double> x1((-b / (2 * a)), (sqrtDiscriminant / (2 * a)));
-			std::complex<double> x2((-b / (2 * a)), -(sqrtDiscriminant / (2 * a)));
+			std::complex<double> x1((-b / (2 * a)), (squaredDiscriminant / (2 * a)));
+			std::complex<double> x2((-b / (2 * a)), -(squaredDiscriminant / (2 * a)));
 			std::cout << "The roots are complex: " << x1 << " and " << x2 << std::endl;
 		}
 	}
@@ -103,7 +108,7 @@ public:
 
 		CoefeitientExtratctor();
 
-		quadraticFormular();
+		quadraticFormula();
 	}
 
 };
